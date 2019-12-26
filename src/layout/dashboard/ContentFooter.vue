@@ -12,7 +12,7 @@
         &copy; Coded with
         <i class="fa fa-heart heart"></i> by
         <a href="https://inha.uz" target="_blank"> &nbsp; IUT</a>&nbsp;
-        Designed by <a href="https://www.creative-tim.com/?ref=pdf-vuejs" target="_blank">&nbsp; Umar</a>
+        Designed by <a href="/" target="_blank">&nbsp; Umar</a>
       </div>
     </div>
   </footer>

@@ -25,42 +25,35 @@
 </template>
 <script>
 import { PaperTable } from "@/components";
-const tableColumns = ["Id", "Name", "Salary", "Country", "City"];
+const tableColumns = ["Id", "Project", "Salary", "Start", "End"];
 const tableData = [
   {
     id: 1,
-    name: "Dakota Rice",
-    salary: "$36.738",
-    country: "Niger",
-    city: "Oud-Turnhout"
+    project: "Logo design",
+    salary: "100 000",
+    start: "2019 08 12",
+    end: "2019 08 13"
   },
   {
     id: 2,
-    name: "Minerva Hooper",
-    salary: "$23,789",
-    country: "Curaçao",
-    city: "Sinaai-Waas"
+    project: "Logo design",
+    salary: "100 000",
+    start: "2019 08 12",
+    end: "2019 08 13"
   },
   {
     id: 3,
-    name: "Sage Rodriguez",
-    salary: "$56,142",
-    country: "Netherlands",
-    city: "Baileux"
+    project: "Logo design",
+    salary: "100 000",
+    start: "2019 08 12",
+    end: "2019 08 13"
   },
   {
     id: 4,
-    name: "Philip Chaney",
-    salary: "$38,735",
-    country: "Korea, South",
-    city: "Overland Park"
-  },
-  {
-    id: 5,
-    name: "Doris Greene",
-    salary: "$63,542",
-    country: "Malawi",
-    city: "Feldkirchen in Kärnten"
+    project: "Logo design",
+    salary: "100 000",
+    start: "2019 08 12",
+    end: "2019 08 13"
   }
 ];
 
@@ -71,7 +64,7 @@ export default {
   data() {
     return {
       table1: {
-        title: "Stripped Table",
+        title: "All projects",
         subTitle: "Here is a subtitle for this table",
         columns: [...tableColumns],
         data: [...tableData]
