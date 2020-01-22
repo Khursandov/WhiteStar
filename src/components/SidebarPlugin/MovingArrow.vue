@@ -16,6 +16,7 @@ export default {
      * @returns {{transform: string}}
      */
     arrowStyle() {
+      // console.log('arrow direction',this.moveY)
       return {
         transform: `translate3d(0px, ${this.moveY}px, 0px)`
       };

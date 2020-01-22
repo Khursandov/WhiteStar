@@ -1,29 +1,36 @@
 <template>
     <div>
-        <div class="card timer">
-            <h2>12  12  12  12</h2>
+      <transition name="slide-fade">
+        <div v-if="show" class="card timer">
+            <h2>{{userProject.time[2].hour}} : {{userProject.time[1].minut}} : {{userProject.time[0].second}}</h2>
             <div>
-                <button class="btn m-2">
+                <button class="btn m-2" :disabled="!toggle" @click="pause">
                     <i class="ti-control-pause"></i>
                 </button>
-                <button class="btn m-2">
+                <button class="btn m-2" :disabled="toggle" @click="resume">
                     <i class="ti-control-play"></i>
                 </button>
-                <button class="btn m-2">
-                    <i class="ti-control-stop"></i>
-                </button>
+            </div>
+            <div class="text-center">
+              <p-button type="info"
+                round
+                @click.native.prevent="finishProject"
+                >
+                Finish Project
+              </p-button>
             </div>
         </div>
+      </transition>
         <card class="card" title="Start project">
           <div>
             <form @submit.prevent>
               <div class="row">
                 <div class="col-md-5">
                   <fg-input type="text"
-                      label="Company"
+                      label="Project Name"
                       :disabled="disable"
-                      placeholder="Paper "
-                      v-model="user.company">
+                      placeholder="Project "
+                      v-model="userProject.title">
                   </fg-input>
                 </div>
                 <div class="col-md-3">
@@ -32,7 +39,7 @@
                       label="Username"
                       :disabled="disable"
                       placeholder="Username"
-                      v-model="user.username">
+                      v-model="userProject.username">
                   </fg-input>
                 </div>
                 <!-- <div class="col-md-4">
@@ -43,80 +50,11 @@
                   </fg-input>
                 </div> -->
               </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <fg-input type="text"
-                      label="First Name"
-                      :disabled="disable"
-                      placeholder="First Name"
-                      v-model="user.firstName">
-                  </fg-input>
-                </div>
-                <div class="col-md-6">
-                  <fg-input type="text"
-                      label="Last Name"
-                      :disabled="disable"
-                      placeholder="Last Name"
-                      v-model="user.lastName">
-                  </fg-input>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <fg-input type="text"
-                      label="Address"
-                      :disabled="disable"
-                      placeholder="Home Address"
-                      v-model="user.address">
-                  </fg-input>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <fg-input type="text"
-                      label="City"
-                      placeholder="City"
-                      :disabled="disable"
-                      v-model="user.city">
-                  </fg-input>
-                </div>
-                <div class="col-md-4">
-                  <fg-input type="text"
-                      label="Country"
-                      :disabled="disable"
-                      placeholder="Country"
-                      v-model="user.country">
-                  </fg-input>
-                </div>
-                <div class="col-md-4">
-                  <fg-input type="number"
-                      :disabled="disable"
-                      label="Postal Code"
-                      placeholder="ZIP Code"
-                      v-model="user.postalCode">
-                  </fg-input>
-                </div>
-              </div>
-
-              <!-- <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label>About Me</label>
-                    <textarea rows="5" class="form-control border-input"
-                              placeholder="Here can be your description"
-                              v-model="user.aboutMe">
-
-                    </textarea>
-                  </div>
-                </div>
-              </div> -->
               <div class="text-center">
                 <p-button type="info"
                       round
-                      @click.native.prevent="startProject"
+                      :disabled="disable"
+                      @click.native.prevent="startTimer"
                       >
                       Start Project
                 </p-button>
@@ -131,24 +69,80 @@
 export default {
   data() {
     return {
-        disable: false,
-        user: {
-          company: "White Star",
-          username: "@Sarvar",
-          // email: "",
-          firstName: "Chet",
-          lastName: "Faker",
-          address: "Melbourne, Australia",
-          city: "Melbourne",
-          postalCode: "",
-          // aboutMe: `We must accept finite disappointment, but hold on to infinite hope.`
-        }
+      show: false,
+      toggle: true,
+      disable: false,
+      userProject: {
+        title: "",
+        username: "@Sarvar",
+        time: [
+          { second: 0 },
+          { minut: 30 },
+          { hour: 2 }
+        ],
+        summa: 0,
+        start: null,
+        end: false,
+        pause: false
+      }
     };
   },
   methods: {
-    startProject() {
-        this.disable = true
-      alert("Your data: " + JSON.stringify(this.user));
+    finishProject ( ) {
+      // define finished data
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var dateTime = date+' '+time;
+
+      this.calculating()
+      this.userProject.pause = true
+      const data = {
+        'projectTitle': this.userProject.title,
+        'time': [...this.userProject.time],
+        'end': dateTime,
+        'summa': this.userProject.summa,
+        'start': this.userProject.start
+      }
+      this.$store.dispatch('createProject', data)
+    },
+    startTimer ( ) {
+      this.show = true
+      this.disable = true
+      // save started time
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var dateTime = date+' '+time;
+      this.userProject.start = dateTime
+      // 
+      this.start = setInterval(() => this.timer(), 1000)
+    },
+    timer ( ) {
+      if (!this.userProject.pause) {
+        this.userProject.time[0].second ++
+        // Minut
+        if (this.userProject.time[0].second == 60) {
+          this.userProject.time[1].minut ++
+          this.userProject.time[0].second = 0
+          // Hour
+        }
+        if (this.userProject.time[1].minut == 60) {
+          this.userProject.time[2].hour ++
+          this.userProject.time[1].minut = 0
+        }
+      }
+    },
+    pause ( ) {
+      this.toggle = false
+      this.userProject.pause = true
+    },
+    resume ( ) {
+      this.toggle = true
+      this.userProject.pause = false
+    },
+    calculating ( ) {
+      this.userProject.summa = (this.userProject.time[1].minut/60 + this.userProject.time[2].hour) * this.$store.state.admin.perHour
     }
   }
 };
@@ -156,5 +150,16 @@ export default {
 <style>
 .timer {
     text-align: center;
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

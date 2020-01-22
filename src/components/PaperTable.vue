@@ -6,11 +6,11 @@
     </slot>
     </thead>
     <tbody>
-    <tr v-for="(item, index) in data" :key="index">
+    <tr v-for="(item, index) in lists" :key="index">
       <slot :row="item">
         <td v-for="(column, index) in columns"
             :key="index"
-            v-if="hasValue(item, column)">
+        >
           {{itemValue(item, column)}}
         </td>
       </slot>
@@ -37,6 +37,29 @@ export default {
       default: ""
     }
   },
+  data() {
+    return {
+      lists: []
+    }
+  },
+  beforeCreate ( ) {
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth()+1
+    console.log(day, month)
+    setTimeout(() => {
+      this.lists = []
+        this.$store.state.userProjects.forEach((element, index) => {
+          let data = element.start.split(" ")
+          element.duration = JSON.stringify(element.duration).replace(/[{,}""]/g,' ')
+          element.duration = element.duration.replace(/]/g, ' ').replace(/\[/g, ' ')
+          element.id = index
+          if (data[0].split("-")[1] === month.toString() && data[0].split("-")[2] === day.toString()) {
+            this.lists.push(element)
+          }
+        });
+    }, 2000)
+  },
   computed: {
     tableClass() {
       return `table-${this.type}`;
@@ -49,7 +72,7 @@ export default {
     itemValue(item, column) {
       return item[column.toLowerCase()];
     }
-  }
+  },
 };
 </script>
 <style>

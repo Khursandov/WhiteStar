@@ -6,7 +6,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  created ( ) {
+    this.$store.dispatch('checkUser')
+    // this.$store.dispatch('getCurrentDayProjects')
+  },
+  watch: {
+    $route (to, from) {
+      this.$store.dispatch('checkUser')
+      // this.$store.dispatch('getCurrentDayProjects')
+    }
+  }
+};
 </script>
 
 <style lang="scss">

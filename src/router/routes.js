@@ -10,6 +10,9 @@ import Icons from "@/pages/Icons.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 import StartProject from '@/pages/StartProject';
+import signIn from '../pages/Auth/signIn';
+import signUp from '../pages/Auth/signUp';
+
 
 const routes = [
   {
@@ -53,6 +56,16 @@ const routes = [
         component: StartProject
       }
     ]
+  },
+  {
+    path: '/signIn',
+    name: 'Sign In',
+    component: signIn
+  },
+  {
+    path: '/signUp',
+    name: 'Sign Up',
+    component: signUp
   },
   { path: "*", component: NotFound }
 ];

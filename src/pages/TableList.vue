@@ -10,7 +10,7 @@
         </card>
       </div>
 
-      <div class="col-12">
+      <!-- <div class="col-12">
         <card class="card-plain">
           <div class="table-full-width table-responsive">
             <paper-table type="hover" :title="table2.title" :sub-title="table2.subTitle" :data="table2.data"
@@ -19,42 +19,22 @@
             </paper-table>
           </div>
         </card>
-      </div>
+      </div> -->
 
     </div>
 </template>
 <script>
 import { PaperTable } from "@/components";
-const tableColumns = ["Id", "Project", "Salary", "Start", "End"];
-const tableData = [
-  {
-    id: 1,
-    project: "Logo design",
-    salary: "100 000",
-    start: "2019 08 12",
-    end: "2019 08 13"
-  },
-  {
-    id: 2,
-    project: "Logo design",
-    salary: "100 000",
-    start: "2019 08 12",
-    end: "2019 08 13"
-  },
-  {
-    id: 3,
-    project: "Logo design",
-    salary: "100 000",
-    start: "2019 08 12",
-    end: "2019 08 13"
-  },
-  {
-    id: 4,
-    project: "Logo design",
-    salary: "100 000",
-    start: "2019 08 12",
-    end: "2019 08 13"
-  }
+const tableColumns = ["Id", "Project", "Salary", "Duration", "Start", "End"];
+let tableData = [
+  // {
+  //   id: 1,
+  //   project: "Logo design",
+  //   salary: "100 000",
+  //   duration: '2000',
+  //   start: "2019 08 12",
+  //   end: "2019 08 13"
+  // },
 ];
 
 export default {
@@ -69,14 +49,34 @@ export default {
         columns: [...tableColumns],
         data: [...tableData]
       },
-      table2: {
-        title: "Table on Plain Background",
-        subTitle: "Here is a subtitle for this table",
-        columns: [...tableColumns],
-        data: [...tableData]
-      }
-    };
-  }
+      // table2: {
+      //   title: "Table on Plain Background",
+      //   subTitle: "Here is a subtitle for this table",
+      //   columns: [...tableColumns],
+      //   data: [...tableData]
+      // }
+    }
+  },
+  methods: {
+    async aa ( ) {
+      let promise = new Promise((resolve, reject) => {
+        this.$store.dispatch('getCurrentDayProjects')
+      })
+      let result = await promise;
+      // console.log('tugadi')
+      // console.log('1111', this.$store.state.userProjects)
+      // tableData = []
+      // this.$store.state.userProjects.forEach((element, index) => {
+      //   element.id = index
+      //   tableData.push(element)
+      //   console.log('2222', tableData)
+      // });
+      // console.log('2222', tableData)
+    }
+  },
+  created ( ) {
+    this.aa()
+  },
 };
 </script>
 <style>

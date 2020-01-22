@@ -38,7 +38,7 @@
             </a>
           </li> -->
           <div class="nav-item">
-            <button class="btn btn-hover" to="/logOut" data-background-color="white">
+            <button class="btn btn-hover" @click="logOut" data-background-color="white">
               Log Out
             </button>
           </div>
@@ -62,6 +62,9 @@ export default {
   methods: {
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+    logOut ( ) {
+      this.$store.dispatch('logOut')
     },
     toggleNotificationDropDown() {
       this.activeNotifications = !this.activeNotifications;

@@ -13,7 +13,7 @@
             <div class="logo-img">
                 <img src="@/assets/img/logo.png" alt="">
             </div>
-          {{title}}
+          <!-- {{title}} -->
         </a>
       </div>
       <slot>
@@ -94,7 +94,6 @@ export default {
      */
     arrowMovePx() {
       return this.linkHeight * this.activeLinkIndex;
-      console.log(this.activeLinkIndex)
     }
   },
   data() {
@@ -112,9 +111,9 @@ export default {
       this.links.forEach((link, index) => {
         if (link.isActive()) {
           this.activeLinkIndex = index;
-          console.log(this.activeLinkIndex)
         }
       });
+      // console.log(this.links)
     },
     addLink(link) {
       const index = this.$slots.links.indexOf(link.$vnode);

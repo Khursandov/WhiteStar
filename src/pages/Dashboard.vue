@@ -27,6 +27,7 @@
 <script>
 import { StatsCard, ChartCard } from "@/components/index";
 import Chartist from 'chartist';
+import { METHODS } from 'http';
 export default {
   components: {
     StatsCard,
@@ -63,8 +64,8 @@ export default {
           footerIcon: "ti-reload"
         }
       ]
-    };
-  }
+    }
+  },
 };
 </script>
 <style>
