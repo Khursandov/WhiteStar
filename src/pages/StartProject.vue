@@ -2,7 +2,7 @@
     <div>
       <transition name="slide-fade">
         <div v-if="show" class="card timer">
-            <h2>{{userProject.time[2].hour}} : {{userProject.time[1].minut}} : {{userProject.time[0].second}}</h2>
+            <h2>{{this.$store.state.time[2].hour}} : {{this.$store.state.time[1].minut}} : {{this.$store.state.time[0].second}}</h2>
             <div>
                 <button class="btn m-2" :disabled="!toggle" @click="pause">
                     <i class="ti-control-pause"></i>
@@ -120,17 +120,18 @@ export default {
     },
     timer ( ) {
       if (!this.userProject.pause) {
-        this.userProject.time[0].second ++
-        // Minut
-        if (this.userProject.time[0].second == 60) {
-          this.userProject.time[1].minut ++
-          this.userProject.time[0].second = 0
-          // Hour
-        }
-        if (this.userProject.time[1].minut == 60) {
-          this.userProject.time[2].hour ++
-          this.userProject.time[1].minut = 0
-        }
+        this.$store.commit('setTime')
+        // this.userProject.time[0].second ++
+        // // Minut
+        // if (this.userProject.time[0].second == 60) {
+        //   this.userProject.time[1].minut ++
+        //   this.userProject.time[0].second = 0
+        //   // Hour
+        // }
+        // if (this.userProject.time[1].minut == 60) {
+        //   this.userProject.time[2].hour ++
+        //   this.userProject.time[1].minut = 0
+        // }
       }
     },
     pause ( ) {

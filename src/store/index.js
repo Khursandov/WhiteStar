@@ -19,7 +19,13 @@ export default new Vuex.Store({
     message: {
       title: 'errororor',
       body:  'null'
-    }
+    },
+    time: [
+      { second: 0 },
+      { minut: 30 },
+      { hour: 2 }
+    ],
+    isAdmin: false
   },
   mutations: {
     setUser (state, payload) {
@@ -28,14 +34,28 @@ export default new Vuex.Store({
       this.state.user.email = payload.email
     },
     setMessage (state, payload) {
-      this.state.message.title = payload.title
-      this.state.message.body = payload.body
+      this.state.message.body = payload
     },
     setAdmin (state,payload) {
       this.state.admin = payload
     },
     setProjects (state, payload) {
       this.state.userProjects.push(payload)
+    },
+    setTime (state) {
+      this.state.time[0].second ++
+      if (this.state.time[0].second == 60) {
+        this.state.time[1].minut ++
+        this.state.time[0].second = 0
+        // Hour
+      }
+      if (this.state.time[1].minut == 60) {
+        this.state.time[2].hour ++
+        this.state.time[1].minut = 0
+      }
+    },
+    isAdmin (state, payload) {
+      this.state.isAdmin = payload
     }
   },
   actions: {
@@ -48,22 +68,20 @@ export default new Vuex.Store({
         }).then (()=> {})
 
       }).catch(err => {
+        commit('setMessage',err.message)
         console.log(err)
       })
     },
-    signIn ({commit}, payload) {
-      console.log(payload)
+    signIn ({commit, dispatch}, payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(data => {
+        dispatch('checkAdmin',payload.email)
         router.push('/')
       }).catch(err => {
-        console.log(err)
+        console.log('SignIn', err.message)
+        commit('setMessage',err.message)
       })
     },
     checkUser ({commit, dispatch, state}) {
-      // db.collection('users').add(datas).then(res => {
-      //   console.log(res)
-      // })
-      
       db.collection('admin').get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           const data = {
@@ -72,6 +90,8 @@ export default new Vuex.Store({
           }
           commit('setAdmin', data)
         })
+      }).catch(err => {
+        console.log('checkUser', err)
       })
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -87,6 +107,14 @@ export default new Vuex.Store({
           // No user is signed in.
         }
       });
+    },
+    checkAdmin ({state, commit}, payload) {
+      console.log('22222222', payload)
+      db.collection('admin').where('email', '==', payload ).get().then((doc) => {
+        commit('isAdmin', true)
+      }).catch(err => {
+        console.log('Checkadmin', err.message)
+      })
     },
     createProject ({commit, state}, payload) {
 
@@ -105,7 +133,7 @@ export default new Vuex.Store({
     },
     getCurrentDayProjects ({commit, state}) {
       this.state.userProjects = []
-      console.log('-1-1-1-1-1', this.state.userProjects)
+      // console.log('-1-1-1-1-1', this.state.userProjects)
       db.collection('users').where('id', '==', this.state.user.id).get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           const data = {
@@ -116,9 +144,9 @@ export default new Vuex.Store({
             'salary': doc.data().summa,
             'id': doc.data().id
           }
-          console.log('0000',data)
+          // console.log('0000',data)
           commit('setProjects', data)
-          console.log('--0-0-0-0', this.state.userProjects)
+          // console.log('--0-0-0-0', this.state.userProjects)
         })
       }).catch( err => {
         console.log(err)

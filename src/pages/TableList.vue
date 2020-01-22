@@ -63,15 +63,6 @@ export default {
         this.$store.dispatch('getCurrentDayProjects')
       })
       let result = await promise;
-      // console.log('tugadi')
-      // console.log('1111', this.$store.state.userProjects)
-      // tableData = []
-      // this.$store.state.userProjects.forEach((element, index) => {
-      //   element.id = index
-      //   tableData.push(element)
-      //   console.log('2222', tableData)
-      // });
-      // console.log('2222', tableData)
     }
   },
   created ( ) {

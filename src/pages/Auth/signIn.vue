@@ -135,8 +135,6 @@ export default {
         this.$notify({
         component: NotificationTemplate,
         icon: "ti-help-alt",
-        horizontalAlign: 'bottom',
-        verticalAlign: 'right',
         type: 'warning'
       });
         this.checkInput()

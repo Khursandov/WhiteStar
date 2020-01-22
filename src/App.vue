@@ -7,14 +7,13 @@
 
 <script>
 export default {
-  created ( ) {
+  beforeCreate ( ) {
     this.$store.dispatch('checkUser')
-    // this.$store.dispatch('getCurrentDayProjects')
   },
   watch: {
     $route (to, from) {
       this.$store.dispatch('checkUser')
-      // this.$store.dispatch('getCurrentDayProjects')
+      console.log('bababa', this.$store.state.isAdmin)
     }
   }
 };

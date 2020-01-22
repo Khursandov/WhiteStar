@@ -55,30 +55,6 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-4">
-            <fg-input type="text"
-                      label="City"
-                      placeholder="City"
-                      v-model="user.city">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="text"
-                      label="Country"
-                      placeholder="Country"
-                      v-model="user.country">
-            </fg-input>
-          </div>
-          <div class="col-md-4">
-            <fg-input type="number"
-                      label="Postal Code"
-                      placeholder="ZIP Code"
-                      v-model="user.postalCode">
-            </fg-input>
-          </div>
-        </div>
-
         <!-- <div class="row">
           <div class="col-md-12">
             <div class="form-group">
