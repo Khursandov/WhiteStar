@@ -5,14 +5,13 @@ import NotFound from "@/pages/NotFoundPage.vue";
 // Admin pages
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
-import Notifications from "@/pages/Notifications.vue";
+import AdminTable from "@/pages/AdminTable.vue";
 import Icons from "@/pages/Icons.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 import StartProject from '@/pages/StartProject';
 import signIn from '../pages/Auth/signIn';
 import signUp from '../pages/Auth/signUp';
-
 
 const routes = [
   {
@@ -31,9 +30,9 @@ const routes = [
         component: UserProfile
       },
       {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications
+        path: "adminTable",
+        name: "Admin-Table",
+        component: AdminTable
       },
       {
         path: "icons",

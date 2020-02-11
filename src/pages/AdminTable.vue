@@ -1,25 +1,15 @@
 <template>
     <div class="row">
-      <div class="col-12">
-        <card :title="table1.title" :subTitle="table1.subTitle">
-          <div slot="raw-content" class="table-responsive">
-            <paper-table :data="table1.data" :columns="table1.columns">
-
-            </paper-table>
-          </div>
-        </card>
+      <div v-if="!this.$store.state.isLoading">
+        <div class="col-12">
+          <card :title="table1.title" :subTitle="table1.subTitle">
+            <div slot="raw-content" class="table-responsive">
+              <paper-table :data="table1.data" :columns="table1.columns">
+              </paper-table>
+            </div>
+          </card>
+        </div>
       </div>
-
-      <!-- <div class="col-12">
-        <card class="card-plain">
-          <div class="table-full-width table-responsive">
-            <paper-table type="hover" :title="table2.title" :sub-title="table2.subTitle" :data="table2.data"
-                         :columns="table2.columns">
-
-            </paper-table>
-          </div>
-        </card>
-      </div> -->
 
     </div>
 </template>
@@ -60,13 +50,12 @@ export default {
   methods: {
     async aa ( ) {
       let promise = new Promise((resolve, reject) => {
-        this.$store.dispatch('getCurrentDayProjects')
+        this.$store.dispatch('getAllProjects')
       })
       let result = await promise;
     }
   },
   created ( ) {
-    console.log('ssss',this.$store.state.isAdmin)
     this.aa()
   },
 };

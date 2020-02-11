@@ -1,160 +1,89 @@
 <template>
     <div>
-        <div class="card timer">
-            <h2>12  12  12  12</h2>
-            <div>
-                <button class="btn m-2">
-                    <i class="ti-control-pause"></i>
-                </button>
-                <button class="btn m-2">
-                    <i class="ti-control-play"></i>
-                </button>
-                <button class="btn m-2">
-                    <i class="ti-control-stop"></i>
-                </button>
-            </div>
-        </div>
-        <card class="card" title="Start project">
+        <card class="card text-center container my-5 p-5">
           <div>
-            <form @submit.prevent>
-              <div class="row">
-                <div class="col-md-5">
+            <h4>Sign Up</h4>
+            <div v-if="message" class="text-center message my-4">
+              <p class="m-auto">{{ message }}</p>
+            </div>
+              <div class="row justify-content-center">
+                <div class="col-md-5 pl-2">
                   <fg-input type="text"
-                      label="Company"
-                      :disabled="disable"
-                      placeholder="Paper "
-                      v-model="user.company">
+                      label="E-mail"
+                      placeholder="E-mail "
+                      v-model="user.email">
                   </fg-input>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-5 pl-2">
                 
                   <fg-input type="text"
-                      label="Username"
-                      :disabled="disable"
-                      placeholder="Username"
-                      v-model="user.username">
-                  </fg-input>
-                </div>
-                <!-- <div class="col-md-4">
-                  <fg-input type="email"
-                            label="Username"
-                            placeholder="Email"
-                            v-model="user.email">
-                  </fg-input>
-                </div> -->
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <fg-input type="text"
-                      label="First Name"
-                      :disabled="disable"
-                      placeholder="First Name"
-                      v-model="user.firstName">
-                  </fg-input>
-                </div>
-                <div class="col-md-6">
-                  <fg-input type="text"
-                      label="Last Name"
-                      :disabled="disable"
-                      placeholder="Last Name"
-                      v-model="user.lastName">
+                      label="Password"
+                      placeholder="Password"
+                      v-model="user.password">
                   </fg-input>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-md-12">
-                  <fg-input type="text"
-                      label="Address"
-                      :disabled="disable"
-                      placeholder="Home Address"
-                      v-model="user.address">
-                  </fg-input>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <fg-input type="text"
-                      label="City"
-                      placeholder="City"
-                      :disabled="disable"
-                      v-model="user.city">
-                  </fg-input>
-                </div>
-                <div class="col-md-4">
-                  <fg-input type="text"
-                      label="Country"
-                      :disabled="disable"
-                      placeholder="Country"
-                      v-model="user.country">
-                  </fg-input>
-                </div>
-                <div class="col-md-4">
-                  <fg-input type="number"
-                      :disabled="disable"
-                      label="Postal Code"
-                      placeholder="ZIP Code"
-                      v-model="user.postalCode">
-                  </fg-input>
-                </div>
-              </div>
-
-              <!-- <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label>About Me</label>
-                    <textarea rows="5" class="form-control border-input"
-                              placeholder="Here can be your description"
-                              v-model="user.aboutMe">
-
-                    </textarea>
-                  </div>
-                </div>
-              </div> -->
               <div class="text-center">
-                <p-button type="info"
-                      round
-                      @click.native.prevent="startProject"
+                <button class="btn btn-primary" type="info"
+                      @click="signIn"
                       >
-                      Start Project
-                </p-button>
+                      Sign In
+                </button>
               </div>
               <div class="clearfix"></div>
-            </form>
           </div>
         </card>
     </div>
 </template>
 <script>
+import NotificationTemplate from '../Notifications/NotificationTemplate';
 export default {
   data() {
     return {
-        disable: false,
         user: {
-          company: "White Star",
-          username: "@Sarvar",
-          // email: "",
-          firstName: "Chet",
-          lastName: "Faker",
-          address: "Melbourne, Australia",
-          city: "Melbourne",
-          postalCode: "",
+          email: '',
+          password: '',
           // aboutMe: `We must accept finite disappointment, but hold on to infinite hope.`
-        }
+        },
+        message: ''
     };
   },
   methods: {
-    startProject() {
-        this.disable = true
-      alert("Your data: " + JSON.stringify(this.user));
+      
+    checkInput ( ) {
+      console.log('check input')
+      if (this.user.email.length == 0 && this.user.email.length == 0) {
+        this.message = 'Invalid input'
+        return false
+      }
+      return true
+      },
+    async signIn () {
+        console.log('111111111111')
+      let wait = await this.checkInput()
+      if (wait) {
+        const data = {
+          'email': this.user.email,
+          'password': this.user.password
+        }
+        this.$store.dispatch('signUp', data )
+      }
     }
   }
 };
 </script>
 <style>
-.timer {
-    text-align: center;
+.message {
+  margin: auto;
+  width: 80%;
+  background: rgba(255, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 5px;
+}
+p{
+  margin: auto;
+  color: #fff;
+  font-size: 20px;
 }
 </style>

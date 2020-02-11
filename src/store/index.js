@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isLoading: false,
     user: {
       id: null,
       loggidIn: false,
@@ -18,7 +19,7 @@ export default new Vuex.Store({
     admin: [],
     message: {
       title: 'errororor',
-      body:  'null'
+      body:  null
     },
     time: [
       { second: 0 },
@@ -56,32 +57,35 @@ export default new Vuex.Store({
     },
     isAdmin (state, payload) {
       this.state.isAdmin = payload
+    },
+    setLoading (state, payload) {
+      this.state.isLoading = payload
     }
   },
   actions: {
-    SignUp ( ) {
-      firebase.auth().createUserWithEmailAndPassword('admin@admin.ru', 'password')
+    signUp ({state, commit}, payload ) {
+      console.log(payload)
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then ( data => {
-
-        data.user.updateProfile({
-          displayName: "admin@admin.ru"
-        }).then (()=> {})
-
+        console.log(data)
+        router.push('/')
       }).catch(err => {
         commit('setMessage',err.message)
         console.log(err)
       })
     },
     signIn ({commit, dispatch}, payload) {
+      console.log(payload)
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(data => {
-        dispatch('checkAdmin',payload.email)
         router.push('/')
       }).catch(err => {
         console.log('SignIn', err.message)
         commit('setMessage',err.message)
       })
     },
-    checkUser ({commit, dispatch, state}) {
+    async checkUser ({commit, dispatch, state}) {
+      console.log('true')
+      commit('setLoading', true)
       db.collection('admin').get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           const data = {
@@ -93,25 +97,43 @@ export default new Vuex.Store({
       }).catch(err => {
         console.log('checkUser', err)
       })
-      firebase.auth().onAuthStateChanged(function(user) {
+      await firebase.auth().onAuthStateChanged(function (user) {
+        console.log('qqqqqqqqqqqqq')
         if (user) {
-          // console.log(user.email)
+          dispatch('checkAdmin', user.email);
           user.status = true;
-          commit('setUser', user)
-          state.userProjects = []
+          commit('setUser', user);
+          state.userProjects = [];
+          console.log('false')
+          commit('setLoading', false)
           // dispatch('getCurrentDayProjects')
-        } else {
+        }
+        else {
+          console.log('false')
+          commit('setLoading', false)
           if (router.currentRoute.path !== '/signIn') {
-            router.push({path: 'signIn'});
+            if (router.currentRoute.path !== '/signUp') {
+              router.push({ path: 'signIn' });
+            }
           }
           // No user is signed in.
         }
       });
     },
     checkAdmin ({state, commit}, payload) {
-      console.log('22222222', payload)
-      db.collection('admin').where('email', '==', payload ).get().then((doc) => {
-        commit('isAdmin', true)
+      console.log('true')
+      commit('setLoading', true)
+      db.collection('admin').get().then( querySnapshot => { 
+        querySnapshot.forEach(doc => {
+          if (doc.data().email === payload) {
+            if (router.currentRoute.path !== '/adminTable') {
+              router.push('/adminTable')
+            }
+            commit('isAdmin', true)
+            console.log('false')
+            commit('setLoading', false)
+          }
+        })
       }).catch(err => {
         console.log('Checkadmin', err.message)
       })
@@ -149,6 +171,23 @@ export default new Vuex.Store({
           // console.log('--0-0-0-0', this.state.userProjects)
         })
       }).catch( err => {
+        console.log(err)
+      })
+    },
+    getAllProjects ({commit}, payload) {
+      db.collection('users').get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = {
+            'project': doc.data().projectTitle,
+            'duration': [...doc.data().time],
+            'start': doc.data().start,
+            'end': doc.data().end,
+            'salary': doc.data().summa,
+            'id': doc.data().id
+          }
+          commit('setProjects', data)
+        })
+      }).catch(err => {
         console.log(err)
       })
     }
