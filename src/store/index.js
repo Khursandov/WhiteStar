@@ -23,8 +23,8 @@ export default new Vuex.Store({
     },
     time: [
       { second: 0 },
-      { minut: 30 },
-      { hour: 2 }
+      { minut: 0 },
+      { hour: 0 }
     ],
     isAdmin: false
   },

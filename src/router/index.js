@@ -6,7 +6,6 @@ Vue.use(VueRouter);
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
-  linkActiveClass: "active",
   mode: 'history'
 });
 

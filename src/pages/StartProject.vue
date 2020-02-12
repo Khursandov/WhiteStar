@@ -74,7 +74,7 @@ export default {
       disable: false,
       userProject: {
         title: "",
-        username: "@Sarvar",
+        username: "",
         time: [
           { second: 0 },
           { minut: 0 },
