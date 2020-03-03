@@ -3,29 +3,16 @@
       <div class="col-12">
         <card :title="table1.title" :subTitle="table1.subTitle">
           <div slot="raw-content" class="table-responsive">
-            <paper-table :data="table1.data" :columns="table1.columns">
-
-            </paper-table>
+            <paper-table :data="table1.data" :columns="table1.columns" />
           </div>
         </card>
       </div>
-
-      <!-- <div class="col-12">
-        <card class="card-plain">
-          <div class="table-full-width table-responsive">
-            <paper-table type="hover" :title="table2.title" :sub-title="table2.subTitle" :data="table2.data"
-                         :columns="table2.columns">
-
-            </paper-table>
-          </div>
-        </card>
-      </div> -->
 
     </div>
 </template>
 <script>
 import { PaperTable } from "@/components";
-const tableColumns = ["Id", "Project", "Salary", "Duration", "Start", "End"];
+const tableColumns = ["Id", "Project", "Salary", "Start", "End"];
 let tableData = [
   // {
   //   id: 1,
@@ -44,8 +31,8 @@ export default {
   data() {
     return {
       table1: {
-        title: "All projects",
-        subTitle: "Here is a subtitle for this table",
+        title: "Projects",
+        subTitle: "",
         columns: [...tableColumns],
         data: [...tableData]
       },
@@ -66,7 +53,7 @@ export default {
     }
   },
   created ( ) {
-    console.log('ssss',this.$store.state.isAdmin)
+    // console.log('ssss',this.$store.state.isAdmin)
     this.aa()
   },
 };

@@ -2,15 +2,22 @@
   "name": "vue-paper-dashboard",
   "version": "1.0.0",
   "private": true,
+  "description": "A sample admin dashboard based on paper dashboard UI template",
+  "author": "Khursandov S",
   "scripts": {
-    "build": "vue-cli-service build",
-    "e2e": "node test/e2e/runner.js",
-    "lint": "vue-cli-service lint",
-    "lint-fix": "vue-cli-service lint --fix",
     "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "dev": "npm run serve",
+    "e2e": "node test/e2e/runner.js",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "lint-fix": "vue-cli-service lint --fix",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps",
     "start": "node server.js"
   },
+  "main": "background.js",
   "dependencies": {
     "bootstrap": "^4.0.0",
     "chartist": "^0.11.0",
@@ -29,19 +36,19 @@
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
     "@vue/eslint-config-prettier": "^5.0.0",
+    "electron": "^6.0.0",
     "node-sass": "^4.8.3",
     "sass-loader": "^6.0.7",
+    "vue-cli-plugin-electron-builder": "^1.4.5",
     "vue-template-compiler": "^2.6.10"
-  },
-  "description": "A sample admin dashboard based on paper dashboard UI template",
-  "author": "Khursandov S",
-  "engines": {
-    "node": ">= 8.1.4",
-    "npm": ">= 5.0.0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "engines": {
+    "node": ">= 8.1.4",
+    "npm": ">= 5.0.0"
+  }
 }

@@ -1,6 +1,15 @@
 <template>
     <div>
         <card class="card text-center container my-5 p-5">
+          <div class="row justify-content-end">
+            <div class="col-md-2">
+              <button class="btn btn-primary text-white">
+                <router-link class="text-white" to="/signIn"> 
+                  Sign In
+                </router-link>
+              </button>
+            </div>
+          </div>
           <div>
             <h4>Sign Up</h4>
             <div v-if="message" class="text-center message my-4">
@@ -16,7 +25,7 @@
                 </div>
                 <div class="col-md-5 pl-2">
                 
-                  <fg-input type="text"
+                  <fg-input type="password"
                       label="Password"
                       placeholder="Password"
                       v-model="user.password">
@@ -28,7 +37,7 @@
                 <button class="btn btn-primary" type="info"
                       @click="signIn"
                       >
-                      Sign In
+                      Sign Up
                 </button>
               </div>
               <div class="clearfix"></div>
@@ -52,7 +61,6 @@ export default {
   methods: {
       
     checkInput ( ) {
-      console.log('check input')
       if (this.user.email.length == 0 && this.user.email.length == 0) {
         this.message = 'Invalid input'
         return false
@@ -60,7 +68,6 @@ export default {
       return true
       },
     async signIn () {
-        console.log('111111111111')
       let wait = await this.checkInput()
       if (wait) {
         const data = {

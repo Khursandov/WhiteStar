@@ -1,10 +1,12 @@
 <template>
   <div class="wrapper">
-      {{this.$store.state.isAdmin}}
     <side-bar>  
       <template slot="links">
-        <sidebar-link v-if="!this.$store.state.isLoading" to="/table-list" name="Table List" icon="ti-view-list-alt"/>
-        <sidebar-link v-if="!this.$store.state.isLoading" to="/start-project" name="Start Project" icon="ti-plus"/>
+        <sidebar-link v-if="!this.$store.state.isLoading" v-show="!this.$store.state.isAdmin" to="/table-list" name="Table List" icon="ti-view-list-alt"/>
+        <sidebar-link v-if="!this.$store.state.isLoading" v-show="!this.$store.state.isAdmin" to="/start-project" name="Start Project 1" icon="ti-plus"/>
+        <sidebar-link v-if="!this.$store.state.isLoading" v-show="!this.$store.state.isAdmin" to="/start-project/two" name="Start Project 2" icon="ti-plus"/>
+        <sidebar-link v-if="!this.$store.state.isLoading" v-show="!this.$store.state.isAdmin" to="/start-project/three" name="Start Project 3" icon="ti-plus"/>
+        <sidebar-link v-if="!this.$store.state.isLoading" v-show="!this.$store.state.isAdmin" to="/start-project/four" name="Start Project 4" icon="ti-plus"/>
         <sidebar-link v-if="this.$store.state.isAdmin && !this.$store.state.isLoading" to="/adminTable" name="Admin Table" icon="ti-bell"/>
       </template>
       <mobile-menu>
@@ -42,7 +44,7 @@ export default {
     }
   },
   beforeCreate () {
-    console.log('123123123',this.$store.state.isAdmin)
+    // console.log('123123123',this.$store.state.isAdmin)
     this.isAdmin = this.$store.state.isAdmin
   },
   created () {

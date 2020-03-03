@@ -41,25 +41,17 @@ export default {
   },
   data() {
     return {
-      lists: [],
-      lists1: []
+      lists: []
     }
   },
   beforeCreate ( ) {
-    var today = new Date();
-    var year = today.getFullYear()
-    var day = today.getDate();
-    var month = today.getMonth()+1
-    const dataa = year + '-' + month + '-' + day
-    setTimeout(() => {
+    setInterval(() => {
       this.lists = []
         this.$store.state.userProjects.forEach((element, index) => {
           let data = element.start.split(" ")
           element.id = index
-          if (data[0] == dataa) {
-            console.log(element)
-            this.lists.push(element)
-          }
+          console.log(element)
+          this.lists.push(element)
         });
     }, 2000)
   },

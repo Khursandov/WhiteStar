@@ -7,12 +7,17 @@
 
 <script>
 export default {
-  async beforeCreate ( ) {
-    await this.$store.dispatch('checkUser')
+  beforeCreate ( ) {
+    // setInterval(() => {
+      this.$store.dispatch('aa')
+    // }, 2000)
+  },
+  created () {
+    // this.$store.dispatch('checkUser')
   },
   watch: {
     $route (to, from) {
-      this.$store.dispatch('checkUser')
+      // this.$store.dispatch('checkUser')
     }
   }
 };

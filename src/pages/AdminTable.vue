@@ -4,8 +4,8 @@
         <div class="col-12">
           <card :title="table1.title" :subTitle="table1.subTitle">
             <div slot="raw-content" class="table-responsive">
-              <paper-table :data="table1.data" :columns="table1.columns">
-              </paper-table>
+              <paper-table2 :data="table1.data" :columns="table1.columns">
+              </paper-table2>
             </div>
           </card>
         </div>
@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import { PaperTable } from "@/components";
+import  PaperTable2  from "@/components/PaperTable2";
 const tableColumns = ["Id", "Project", "Salary", "Duration", "Start", "End"];
 let tableData = [
   // {
@@ -29,7 +29,7 @@ let tableData = [
 
 export default {
   components: {
-    PaperTable
+    PaperTable2
   },
   data() {
     return {

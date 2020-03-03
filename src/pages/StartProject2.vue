@@ -2,7 +2,7 @@
     <div>
       <transition name="slide-fade">
         <div v-if="show" class="card timer">
-            <h2>{{this.$store.state.time[2].hour}} : {{this.$store.state.time[1].minut}} : {{this.$store.state.time[0].second}}</h2>
+            <h2>{{this.$store.state.time2[2].hour}} : {{this.$store.state.time2[1].minut}} : {{this.$store.state.time2[0].second}}</h2>
             <div>
                 <button class="btn m-2" :disabled="!toggle" @click="pause">
                     <i class="ti-control-pause"></i>
@@ -23,7 +23,6 @@
       </transition>
         <card class="card" title="Start project">
           <div>
-            {{userProject.time}}
             <form @submit.prevent>
               <div class="row">
                 <div class="col-md-5">
@@ -43,13 +42,6 @@
                       v-model="userProject.username">
                   </fg-input>
                 </div>
-                <!-- <div class="col-md-4">
-                  <fg-input type="email"
-                            label="Username"
-                            placeholder="Email"
-                            v-model="user.email">
-                  </fg-input>
-                </div> -->
               </div>
               <div class="text-center">
                 <p-button type="info"
@@ -74,20 +66,20 @@ export default {
       toggle: true,
       disable: false,
       userProject: {
-        title: "" || localStorage.getItem('project1_title'),
-        username: '' || localStorage.getItem('project1_username'),
+        title: "" || localStorage.getItem('project2_title'),
+        username: '' || localStorage.getItem('project2_username'),
         summa: 0,
         end: false,
-        pause: 0 || localStorage.getItem('project1_pause')
+        pause: 0 || localStorage.getItem('project2_pause')
       }
     };
   },
   created () {
-    if (localStorage.getItem('project1') == 1) {
+    if (localStorage.getItem('project2') == 1) {
       console.log(this.userProject)
       this.show = true
       this.disable = true
-      if (localStorage.getItem('project1_pause') !== '1') {
+      if (localStorage.getItem('project2_pause') !== '1') {
         this.toggle = true
       }
     }
@@ -106,7 +98,7 @@ export default {
         'end': dateTime,
         'duration': this.$store.state.time[1].minut + ':' + this.$store.state.time[2].hour,
         'summa': this.userProject.summa,
-        'start': localStorage.getItem('project1_startTime')
+        'start': localStorage.getItem('project2_startTime')
       }
       this.show = false
       this.disable = false
@@ -122,9 +114,9 @@ export default {
       this.userProject.username = ''
     },
     startTimer ( ) {
-      localStorage.setItem('project1', 1)
-      localStorage.setItem('project1_title', this.userProject.title)
-      localStorage.setItem('project1_username', this.userProject.username)
+      localStorage.setItem('project2', 1)
+      localStorage.setItem('project2_title', this.userProject.title)
+      localStorage.setItem('project2_username', this.userProject.username)
       this.show = true
       this.disable = true
       // save started time
@@ -132,28 +124,27 @@ export default {
       var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var dateTime = date+' '+time;
-      localStorage.setItem('project1_startTime', dateTime)
+      localStorage.setItem('project2_startTime', dateTime)
       // 
       this.start = setInterval(() => {
         this.timer()
       }, 1000)
     },
     timer ( ) {
-      this.$store.commit('setTime')
+      this.$store.commit('setTime2')
     },
     pause ( ) {
       this.toggle = false
-      localStorage.setItem('project1_pause', 1)
+      localStorage.setItem('project2_pause', 1)
       this.userProject.pause = '1'
     },
     resume ( ) {
       this.toggle = true
-      localStorage.setItem('project1_pause', 0)
+      localStorage.setItem('project2_pause', 0)
       this.userProject.pause = '0'
     },
     calculating ( ) {
-      console.log('55555555', this.$store.state.time[1].minut/60 , this.$store.state.time[2].hour)
-      this.userProject.summa = (this.$store.state.time[1].minut/60 + this.$store.state.time[2].hour) * this.$store.state.admin.perHour
+      this.userProject.summa = (this.$store.state.time2[1].minut/60 + this.$store.state.time2[2].hour) * this.$store.state.admin.perHour
     }
   }
 };
